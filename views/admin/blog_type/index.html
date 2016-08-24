@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {{include '../shared/_header'}}
+</head>
+
+<body class="no-skin">
+    {{include '../shared/_navbar'}}
+
+    <div class="main-container" id="main-container">
+
+        <div id="sidebar" class="sidebar                  responsive">
+            {{include '../shared/_sidebar'}}
+            <!-- /.sidebar-shortcuts -->
+
+            <ul class="nav nav-list">
+                <li class="">
+                    <a href="/admin/blogType">
+                        <i class="menu-icon fa fa-tachometer"></i>
+                        <span class="menu-text"> Bolg分类信息 </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/admin/blog">
+                        <i class="menu-icon fa fa-tachometer"></i>
+                        <span class="menu-text"> Bolg文章列表 </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/admin/adminUser">
+                        <i class="menu-icon fa fa-desktop"></i>
+                        <span class="menu-text"> 管理员信息 </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+            <!-- /.nav-list -->
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'collapsed')
+                } catch (e) {}
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <script type="text/javascript">
+                        try {
+                            ace.settings.check('breadcrumbs', 'fixed')
+                        } catch (e) {}
+                    </script>
+
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a href="/">{{!!title?title:"管理系统"}}</a>
+                        </li>
+                        <li class="active">列表数据</li>
+                    </ul>
+                    <!-- /.breadcrumb -->
+
+                    <div class="nav-search" id="nav-search">
+                        <form class="form-search">
+                            <span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+                        </form>
+                    </div>
+                    <!-- /.nav-search -->
+                </div>
+
+                <div class="page-content">
+                    {{include '../shared/_setting'}}
+                     
+                    <!-- /.ace-settings-container -->
+
+                    <div class="page-header">
+                        <h1>
+								{{!!title?title:"管理系统"}}
+								<small>
+									<i class="ace-icon fa fa-angle-double-right"></i>
+									列表数据
+								</small>
+							</h1>
+                    </div>
+                    <!-- /.page-header -->
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div style="margin:0;padding:0;">
+                                <a href="/admin/blogType/editor/0" class="btn btn-danger pull-right">新增</a>
+                                <!--
+                        查询条件
+                            姓名 <input name="name"/>
+                            性别 <input type="radio" name="gender"/>男....
+                            手机号 <input name="mobile"/>
+                            邮箱 <input name="email"/>
+                            年龄 取值范围 <input name="minAge"/>-<input name="maxAge"/>
+                    -->
+                                <a class="btn btn-success pull-right" onclick="popSearchFun()">查询</a>
+                                <table class="table table-hover table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>序号</th>
+                                            <th>名字</th>
+                                            <th>排序号</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{each data}}
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{$value.name}}</td>
+                                            <td>{{$value.order_num}}</td>
+                                            <td>
+                                                <a href="/admin/blogType/editor/{{$value.id}}">修改</a>
+                                                <a href="javascript:void(0)" onclick="deleteFun('{{$value.id}}')">删除</a>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                        <tr>
+                    <td colspan="9">
+                        <p>总共{{pageCount}}页,当前第{{page}}页</p>
+                    </td>
+                </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="{{page <= 1 ? 'disabled' : ''}}">
+                                        <a href="{{page==1?'#':'/admin/blogType/'+(page-1)}}">上一页</a>
+                                    </li>
+
+                                    {{each pages as p}} {{if p == page}}
+                                    <li class="active"><span>{{page}}</span></li>
+                                    {{else}}
+                                    <li><a href="/admin/blogType/{{p}}">{{p}}</a></li>
+                                    {{/if}} {{/each}}
+
+                                    <li class="{{page >= pageCount ? 'disabled' : ''}}">
+                                        <a href="{{page>=pageCount?'#':'/admin/blogType/'+(page+1)}}">下一页</a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                            <!--modal delate-->
+                            <div class="modal fade" id="modalDelate">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">确定删除</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>是否确定删除此项</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="doDeleteFun()">是</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <form action="/admin/blogType/delete" id="formDelete" method="post">
+                                <input type="hidden" id="hfDelID" name="id">
+                            </form>
+                            <div class="modal fade" id="modelSearch">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">条件筛选</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/blogType/1" id="mainForm" method="get" class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label for="title" class="col-sm-2 control-label">title</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="nametitle" name="name" value="{{query.name}}" placeholder="请输入名字">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <button type="submit" onclick="doSearchFun(event)" class="btn btn-primary btn-block">提交</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.page-content -->
+            </div>
+        </div>
+        <!-- /.main-content -->
+
+        {{include '../shared/_footer'}}
+
+    <script>
+        var _idForDel = '';
+
+        function deleteFun(id) {
+            _idForDel = id;
+            /////$().modal(); ///bootstrap.js中的方法
+            $("#modalDelate").modal();
+        }
+
+        function doDeleteFun() {
+            if (_idForDel) {
+                $("#hfDelID").val(_idForDel);
+                $("#formDelete").submit();
+            }
+        }
+
+        /////点击查询按钮
+        function popSearchFun() {
+            $("#modelSearch").modal();
+        }
+
+        $(function() {
+
+          $(".pagination a").each(function(){
+            var href = $(this).attr("href");
+            if(!!href && href !="#"){
+              $(this).attr("href",href+"?"+$("#mainForm").serialize());
+            }
+          })
+
+        })
+
+
+    </script>
+
+</body>
+
+</html>

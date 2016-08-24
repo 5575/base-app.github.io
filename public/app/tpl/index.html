@@ -1,0 +1,44 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Blog文章分类</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">我的Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="item in typeData"><a href="#/{{item.id}}/1">{{item.name}}</a></li>
+            </ul>
+
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-3 " ng-repeat="item in blogData">
+        <div class="thumbnail">
+            <a href="#/blog/detail/{{item.id}}" title="{{item.title}}">
+                <img ng-src="{{item.img}}" width="300" height="150"></a>
+            <div class="caption">
+                <h3>
+                <a href="#/blog/detail/{{item.id}}" title="{{item.title}}">{{item.title}}</a>
+              </h3>
+                <p>
+                    {{item.description}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12" style="text-align:center">
+        <a href="javascript:void(0)" ng-show="showLoadMore" ng-click="loadMore()">加载更多</a>
+    </div>
+</div>

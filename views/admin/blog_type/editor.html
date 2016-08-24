@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {{include '../shared/_header'}}
+</head>
+
+<body class="no-skin">
+
+    {{include '../shared/_navbar'}}
+
+    <div class="main-container" id="main-container">
+
+
+        <div id="sidebar" class="sidebar responsive">
+            {{include '../shared/_sidebar'}}
+            <!-- /.sidebar-shortcuts -->
+
+            <ul class="nav nav-list">
+                <li class="">
+                    <a href="/admin/blogType">
+                        <i class="menu-icon fa fa-tachometer"></i>
+                        <span class="menu-text"> Bolg分类信息 </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/admin/blog">
+                        <i class="menu-icon fa fa-tachometer"></i>
+                        <span class="menu-text"> Bolg文章列表 </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="/admin/adminUser">
+                        <i class="menu-icon fa fa-desktop"></i>
+                        <span class="menu-text"> 管理员信息 </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+            <!-- /.nav-list -->
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'collapsed')
+                } catch (e) {}
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <script type="text/javascript">
+                        try {
+                            ace.settings.check('breadcrumbs', 'fixed')
+                        } catch (e) {}
+                    </script>
+
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a href="/">{{!!title?title:"管理系统"}}</a>
+                        </li>
+                        <li class="active">Blog分类信息编辑</li>
+                    </ul>
+                </div>
+
+                <div class="page-content">
+
+                    {{include '../shared/_setting'}}
+                    <!-- /.ace-settings-container -->
+
+                    <div class="page-header">
+                        <h1>
+                            Blog分类管理
+                            <small>
+									<i class="ace-icon fa fa-angle-double-right"></i>
+									分类信息编辑
+								</small>
+                        </h1>
+                    </div>
+                    <!-- /.page-header -->
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <form action="/admin/blogType/editor/{{data.id}}" id="mainForm" method="post" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="user_name" class="col-sm-2 control-label">分类名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="name" name="name" value="{{data.name}}" placeholder="分类名称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pwd" class="col-sm-2 control-label">排序号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="order_num" name="order_num" value="{{data.order_num}}" placeholder="排序号">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="remarks" class="col-sm-2 control-label">备注</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="remarks" class="form-control" id="remarks" placeholder="请输入备注">{{data.remarks}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-block">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <input type="file" style="width:0px;height:0px" id="selectFile">
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.page-content -->
+            </div>
+        </div>
+
+        {{include '../shared/_footer'}}
+
+        <!-- inline scripts related to this page -->
+
+        <script>
+        
+        /**
+         * 初始化页面需要验证的内容
+         */
+        
+        $(function() {
+            $("#mainForm").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 2
+                    },
+                    order_num: {
+                        required:true,
+                        digits:true
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "分类名字不能为空",
+                        minlength: "分类名字最小长度为2"
+                    },
+                    order_num:{
+                      required: "排序号不能为空",
+                      digits: "排序号只能为整数"
+                    }
+                }
+            })
+        })
+    </script>
+
+</body>
+
+</html>

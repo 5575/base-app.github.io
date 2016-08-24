@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>我的Blog-补刀联盟</title>
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="lib/animate.min.css">
+  <style>
+    .article img{
+      max-width: 100%;
+    }
+    /*.ng-enter {
+      animation: fadeIn 1s;
+    }*/
+  </style>
+</head>
+<body>
+  
+  <div ng-app="blog">
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Blog文章分类</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">我的Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="item in typeData"><a href="#/{{item.id}}/1">{{item.name}}</a></li>
+            </ul>
+
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+    <div ng-view>
+
+    </div>
+  </div>
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src='lib/angular.js'></script>
+  <script src='lib/angular-route.min.js'></script>
+  <script src='lib/angular-animate.js'></script>
+  <script src='lib/angular-sanitize.min.js'></script>
+  <script src="app.js"></script>
+  <script src="app/controllers/index_controller.js"></script>
+  <script src="app/controllers/detail_controller.js"></script>
+    <script src="app/services/blog_service.js"></script>
+</body>
+</html>
